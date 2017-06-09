@@ -1,0 +1,47 @@
+public class Codec {
+    // 创建两个键值对map
+    Map<String, String> index = new HashMap<String, String>();
+    Map<String, String> revIndex = new HashMap<String, String>();
+    // 创建短Url的基本路径
+    String Base_Host="http://tinyurl.com/";
+    // Encodes a URL to a shortened URL.
+    public String encode(String longUrl) {
+        // 先判断这个长Url是不是已经存在了，如果存在，则直接返回对应的短链接。
+        if (revIndex.containsKey(longUrl)){
+            return Base_Host + revIndex.get(longUrl);
+        }
+        // 下面是在长url不存在的情况下，随机生成一个六位数
+        String charSet = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890";
+        // 首先把随机生成数key定义为null
+        String key = null;
+        // 循环生成六位数
+        do{
+            StringBuilder sb = new StringBuilder();
+            
+            for(int i=0;i<6; i++){
+               int num = (int)(Math.random()*charSet.length());
+                //   key = key + r.get(num);
+                sb.append(charSet.charAt(num));
+            }
+            key=sb.toString();
+        }
+        // 如果六位数在之前已经存在，那么重新生成一遍。
+        while(index.containsKey(key));
+        
+        
+        index.put(key, longUrl);
+        revIndex.put(longUrl, key);
+        
+        return Base_Host + key;
+    }
+
+    // Decodes a shortened URL to its original URL.
+    public String decode(String shortUrl) {
+        return index.get(shortUrl.replace(Base_Host ,""));
+        
+    }
+}
+
+// Your Codec object will be instantiated and called as such:
+// Codec codec = new Codec();
+// codec.decode(codec.encode(url));
