@@ -1,0 +1,35 @@
+public class Solution {
+    public int hammingDistance(int x, int y) {
+        String X = Integer.toBinaryString(x);
+        String Y = Integer.toBinaryString(y);
+        if(X.length()>=Y.length()){
+            int num=0;
+            
+            // Y= (diff*"0")+Y;
+            // 补齐短位
+            for(int diff = 0; diff<=X.length() - Y.length();diff++){
+                Y = "0"+Y;
+            }
+            for(int i=0;i<X.length();i++){
+                if(X.charAt(i)!=Y.charAt(i)){
+                    num++;
+                }
+            } 
+            return num;
+        }
+        else{
+            int num=0;
+             // 补齐短位
+            for(int diff = 0; diff<=Y.length() - X.length();diff++){
+                X = "0"+X;
+            }
+            for(int i=0;i<Y.length();i++){
+                if(X.charAt(i)!=Y.charAt(i)){
+                    num++;
+                }
+            } 
+            return num;
+            
+        }
+    }
+}
